@@ -1,4 +1,2 @@
-BACKEND_API_URL: backend.harshadevops.site
-
 app_location: /usr/share/nginx/html
 component: frontend
