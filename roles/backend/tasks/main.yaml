@@ -52,5 +52,3 @@
     login_host: "{{ login_host }}"
     login_user: "{{ login_user }}"
     login_password: "{{ login_password }}"
-  notify:
-    - "Restart Backend Service"
