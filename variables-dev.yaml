@@ -1,6 +1,6 @@
 login_host: db-dev.harshadevops.site
 DB_HOST: db-dev.harshadevops.site
-BACKEND_API_URL: backend-dev.harshadevops.site
+BACKEND_API_URL: backend.app-dev.harshadevops.site
 
 ansible_user: ec2-user
 ansible_password: DevOps321
