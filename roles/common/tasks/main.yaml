@@ -9,9 +9,9 @@
     path: "{{app_location}}"
     state: directory
 
-- name: "Download Artifact from Source Repo"
+- name: "Download Artifact from Nexus Repository"
   ansible.builtin.get_url:
-    url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-{{component}}-v2.zip
+    url: "http://{{nexus_url}}:8081/repository/{{component}}/com/expense/{{component}}/{{appVersion}}/{{component}}-{{appVersion}}.zip"
     dest: "/tmp/{{component}}.zip"
 
 - name: "Unarchive Artifact in {{app_location}}"
