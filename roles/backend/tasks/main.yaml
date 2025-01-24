@@ -1,8 +1,8 @@
-- name: "Disable NodeJS Default Version"
-  ansible.builtin.command: "dnf module disable nodejs -y"
+- name: Disable default nodejs
+  ansible.builtin.command: dnf module disable nodejs -y
 
-- name: "Enable NodeJS Version 20"
-  ansible.builtin.command: "dnf module enable nodejs:20 -y"
+- name: Enable default nodejs:20
+  ansible.builtin.command: dnf module enable nodejs:20 -y
 
 - name: "Install NodeJS and MySQL"
   ansible.builtin.dnf:
@@ -12,7 +12,7 @@
     - nodejs
     - mysql
 
-- name: "Create User expense"
+- name: Create expense user
   ansible.builtin.user:
     name: expense
 
@@ -20,35 +20,49 @@
   ansible.builtin.import_role:
     name: common
 
-- name: "Install npm Dependencies"
+- name: Download backend code
+  ansible.builtin.get_url:
+    url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+    dest: /tmp/backend.zip
+
+- name: Unzip backend.zip
+  ansible.builtin.unarchive:
+    src: /tmp/backend.zip
+    dest: /app
+    remote_src: yes
+
+- name: Install Dependencies
   ansible.builtin.command: npm install
   args:
     chdir: /app
 
-- name: "Copy Backend Service Code"
+- name: Copy backend.service
   ansible.builtin.template:
     src: backend.service.j2
     dest: /etc/systemd/system/backend.service
 
-- name: "Start and Enable Backend Service"
-  ansible.builtin.systemd_service:
-    name: backend
-    state: started
-    enabled: true
-    daemon_reload: true
-
-- name: "Install Python MySQL Dependencies"
+- name: Install Python MySQL Dependencies
   ansible.builtin.pip:
     name:
       - PyMySQL
       - cryptography
     executable: pip3.9
 
-- name: "Import schema to MySQL Database"
-  community.mysql.mysql_db:
-    name: all
-    state: import
+- name: Import data into mysql
+  community.mysql.mysql_db: # connect (login details) + dump
+    login_host: "{{ LOGIN_HOST }}"
+    login_password: "{{ MY_SQL_PASSWORD }}"
+    login_user: root
     target: /app/schema/backend.sql
-    login_host: "{{ login_host }}"
-    login_user: "{{ login_user }}"
-    login_password: "{{ login_password }}"
+    state: import
+    name: all
+
+- name: Daemon reload
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Reload and Start backend service
+  ansible.builtin.service:
+    name: backend
+    state: started
+    enabled: yes
