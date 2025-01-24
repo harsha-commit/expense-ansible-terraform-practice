@@ -20,9 +20,9 @@
     remote_src: true
 
 - name: Copy frontend conf
-  ansible.builtin.copy:
-    src: expense.conf
-    dest: /etc/nginx/default.d/expense.conf
+  ansible.builtin.template:
+    src: expense.conf.j2
+    dest: /etc/nginx/default.d/expense.conf.j2
 
 - name: Restart nginx
   ansible.builtin.service:
