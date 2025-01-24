@@ -1,9 +1,9 @@
 LOGIN_HOST: db-dev.harshadevops.site
 DB_HOST: db-dev.harshadevops.site
 BACKEND_API_URL: backend.app-dev.harshadevops.site
-nexus_url: nexus.harshadevops.site
-app_location: /app
+# nexus_url: nexus.harshadevops.site
+# app_location: /app
 
 ansible_user: ec2-user
 ansible_password: DevOps321
-MY_SQL_PASSWORD: ExpenseApp1
+# MY_SQL_PASSWORD: ExpenseApp1
