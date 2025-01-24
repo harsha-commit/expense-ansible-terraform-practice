@@ -1,4 +1,4 @@
-login_host: db-dev.harshadevops.site
+LOGIN_HOST: db-dev.harshadevops.site
 DB_HOST: db-dev.harshadevops.site
 BACKEND_API_URL: backend.app-dev.harshadevops.site
 nexus_url: nexus.harshadevops.site
