@@ -1,19 +1,31 @@
-- name: "Install nginx"
+- name: Install nginx server
   ansible.builtin.dnf:
     name: nginx
     state: installed
 
-- name: "Start and Enable nginx"
-  ansible.builtin.systemd_service:
+- name: Start and Enable nginx
+  ansible.builtin.service:
     name: nginx
     state: started
-    enabled: true
+    enabled: yes
 
 - name: "Run Common Deployment Processes"
   ansible.builtin.import_role:
     name: common
 
-- name: "Copy Expense Configuration"
-  ansible.builtin.template:
-    src: expense.conf.j2
+- name: Download and Unzip frontend code
+  ansible.builtin.unarchive:
+    src: https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
+    dest: /usr/share/nginx/html
+    remote_src: true
+
+- name: Copy frontend conf
+  ansible.builtin.copy:
+    src: expense.conf
     dest: /etc/nginx/default.d/expense.conf
+  notify:
+    - Restart nginx
+# - name: Restart nginx
+#   ansible.builtin.service:
+#     name: nginx
+#     state: restarted
