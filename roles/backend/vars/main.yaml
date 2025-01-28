@@ -2,7 +2,8 @@
 
 # login_host: "db.harshadevops.site"
 login_user: root
-# login_password: ExpenseApp1
+app_location: /app
+MY_SQL_PASSWORD: ExpenseApp1
 
 app_location: /app
 component: backend
