@@ -1,6 +1,6 @@
 # DB_HOST: db.harshadevops.site
 
-# login_host: "db.harshadevops.site"
+LOGIN_HOST: "db-{{env}}.harshadevops.site"
 login_user: root
 app_location: /app
 MY_SQL_PASSWORD: ExpenseApp1
