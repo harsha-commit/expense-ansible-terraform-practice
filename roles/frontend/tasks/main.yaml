@@ -15,7 +15,7 @@
 
 - name: Download and Unzip frontend code
   ansible.builtin.unarchive:
-    src: https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
+    src: "http://{{nexus_url}}:8081/repository/{{component}}/com/expense/{{component}}/{{app_version}}/{{component}}-{{app_version}}.zip"
     dest: /usr/share/nginx/html
     remote_src: true
 
